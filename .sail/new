@@ -9,13 +9,13 @@
 #
 #/
 
-. /etc/.larasail/includes/colors
-. /etc/.larasail/includes/format
+. /etc/.sail/includes/colors
+. /etc/.sail/includes/format
 
 shift
 
 if [ -z $1 ]; then
-    echo "Usage: larasail new <project-name> [--jet <livewire|inertia>] [--teams] [--www-alias]"
+    echo "Usage: sail new <project-name> [--jet <livewire|inertia>] [--teams] [--www-alias]"
     echo ""
     echo "${Cyan}Tip: you can use periods in project name to automatically create a host for it"
     exit
@@ -68,9 +68,9 @@ if [ -n $HOST ]; then
     echo "Setting up host '$HOST'..."
     
     if $HOST_WITH_WWW_ALIAS; then
-        sudo bash /etc/.larasail/host "$HOST" "$PROJECT_PATH" --www-alias
+        sudo bash /etc/.sail/host "$HOST" "$PROJECT_PATH" --www-alias
     else
-        sudo bash /etc/.larasail/host "$HOST" "$PROJECT_PATH"
+        sudo bash /etc/.sail/host "$HOST" "$PROJECT_PATH"
     fi
 fi
 
@@ -86,4 +86,4 @@ if $INSTALL_JET; then
 fi
 
 cyan "Tip: Run \"cd $PROJECT_PATH\" to go into project directory."
-cyan "Tip: Run \"larasail database init\" in project directory to create a database."
+cyan "Tip: Run \"sail database init\" in project directory to create a database."

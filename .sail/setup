@@ -9,23 +9,12 @@
 #
 #/
 
-. /etc/.larasail/includes/colors
-. /etc/.larasail/includes/format
+. /etc/.sail/includes/colors
+. /etc/.sail/includes/format
 
-PHP="7.4"
-
-if [ "$2" = "php80" ]; then
-   PHP="8.0"
-elif [ "$2" = "php73" ]; then
-   PHP="7.3"
-elif [ "$2" = "php72" ]; then
-   PHP="7.2"
-elif [ "$2" = "php71" ]; then
-   PHP="7.1"
-fi
+PHP="8.0"
 
 setsail
-
 
 bar
 cyan "| Installing Nginx ";
@@ -44,16 +33,16 @@ bar
 MYSQLPASS=$(openssl rand -base64 32)
 
 sudo apt-get update
-if [ ! -d /etc/.larasail/tmp ]; then
-  mkdir /etc/.larasail/tmp
+if [ ! -d /etc/.sail/tmp ]; then
+  mkdir /etc/.sail/tmp
 fi
 
 
-echo '[client]' > /home/larasail/.my.cnf
-echo 'user=root' >> /home/larasail/.my.cnf
-echo 'password='${MYSQLPASS} >> /home/larasail/.my.cnf
+echo '[client]' > /home/sail/.my.cnf
+echo 'user=root' >> /home/sail/.my.cnf
+echo 'password='${MYSQLPASS} >> /home/sail/.my.cnf
 
-chmod 600 /home/larasail/.my.cnf
+chmod 600 /home/sail/.my.cnf
 
 
 echo "mysql-server mysql-server/root_password password $MYSQLPASS" | sudo debconf-set-selections
@@ -70,6 +59,7 @@ CLIENT_IP=$(echo $SSH_CLIENT | awk '{ print $1}')
 sudo ufw allow from ${CLIENT_IP}/32 to any port 3306
 
 
+
 bar
 cyan "| Installing PHP $PHP and all necessary files";
 bar
@@ -78,23 +68,48 @@ sudo apt-get update
 sudo apt-get install -y language-pack-en-base
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-sudo apt-get install -y software-properties-common
+sudo apt-get install -y software-properties-common curl
 sudo add-apt-repository -y ppa:ondrej/php
 sudo apt-get -y update
 sudo apt-get -y upgrade
 
-sudo apt-get install -y unzip
-sudo apt-get install -y php-cli
-sudo apt-get install -y php$PHP-cli php$PHP-common php$PHP-mysql php$PHP-gd php$PHP-mysql php$PHP-curl php$PHP-mbstring php$PHP-xml php$PHP-zip php$PHP-fpm curl git
+# Install Some Basic Packages
+apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make \
+python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils mcrypt bash-completion zsh \
+graphviz avahi-daemon tshark imagemagick
 
-sudo rm /usr/bin/php
-sudo ln -s /usr/bin/php$PHP /usr/bin/php
+# Install Generic PHP packages
+apt-get install -y --allow-change-held-packages \
+php-imagick php-memcached php-redis php-xdebug php-dev php-swoole
+
+# PHP 8.0
+apt-get install -y --allow-change-held-packages \
+php8.0 php8.0-bcmath php8.0-bz2 php8.0-cgi php8.0-cli php8.0-common php8.0-curl php8.0-dba php8.0-dev \
+php8.0-enchant php8.0-fpm php8.0-gd php8.0-gmp php8.0-imap php8.0-interbase php8.0-intl php8.0-ldap \
+php8.0-mbstring php8.0-mysql php8.0-odbc php8.0-opcache php8.0-pgsql php8.0-phpdbg php8.0-pspell php8.0-readline \
+php8.0-snmp php8.0-soap php8.0-sqlite3 php8.0-sybase php8.0-tidy php8.0-xdebug php8.0-xml php8.0-xsl php8.0-zip \
+php8.0-memcached
+
+# PHP 7.4
+apt-get install -y --allow-change-held-packages \
+php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl php7.4-dba php7.4-dev \
+php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap php7.4-interbase php7.4-intl php7.4-json php7.4-ldap \
+php7.4-mbstring php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
+php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xdebug php7.4-xml php7.4-xmlrpc php7.4-xsl \
+php7.4-zip php7.4-memcached
+
+update-alternatives --set php /usr/bin/php8.0
+update-alternatives --set php-config /usr/bin/php-config8.0
+update-alternatives --set phpize /usr/bin/phpize8.0
+
+# sudo rm /usr/bin/php
+# sudo ln -s /usr/bin/php$PHP /usr/bin/php
 
 bar
 cyan "| Updating Permissions "
 bar
 
-sudo chown -R larasail:larasail /var/www
+sudo chown -R sail:sail /var/www
 
 CHECK_SWAP=$(swapon -s | wc -l)
 if [ $CHECK_SWAP -lt 1 ] ; then
@@ -124,7 +139,7 @@ bar
 cyan "| Installing npm"
 bar
 
-curl -sL https://deb.nodesource.com/setup_15.x | sudo bash -
+curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
 sudo apt-get install -y nodejs
 
 bar

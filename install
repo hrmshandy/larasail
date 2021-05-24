@@ -6,48 +6,48 @@
 #--------------------------------------------------------------------------
 #
 # This part of the script will move a few files to the necessary locations,
-# add a new user 'larasail', and add aliases for the CLI
+# add a new user 'sail', and add aliases for the CLI
 #
 #/
 
 
-# Move the files to /etc/.larasail and create a root larasail alias
-mv larasail-master/.larasail /etc/.larasail
-echo "alias larasail='sh /etc/.larasail/larasail'" >> /etc/bash.bashrc
+# Move the files to /etc/.sail and create a root sail alias
+mv larasail-master/.sail /etc/.sail
+echo "alias sail='sh /etc/.sail/sail'" >> /etc/bash.bashrc
 
 
-# Create a new password and create our new larasail user
+# Create a new password and create our new sail user
 PASS=$(openssl rand -base64 32)
-useradd -G sudo -d /home/larasail -p $PASS -m larasail -s /bin/bash
+useradd -G sudo -d /home/sail -p $PASS -m sail -s /bin/bash
 
 
-# Give the larasail user ability to not always require password
-echo 'larasail ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+# Give the sail user ability to not always require password
+echo 'sail ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
 
 # Turn on SSH Passwords
 # sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-# echo -n 'AllowUsers larasail' >> /etc/ssh/sshd_config
+# echo -n 'AllowUsers sail' >> /etc/ssh/sshd_config
 # service ssh reload
 
 
-# Store the larasail user password
-if [ ! -d /etc/.larasail/tmp ]; then
-  sudo mkdir /etc/.larasail/tmp
+# Store the sail user password
+if [ ! -d /etc/.sail/tmp ]; then
+  sudo mkdir /etc/.sail/tmp
 fi
-sudo echo $PASS > /etc/.larasail/tmp/pass
+sudo echo $PASS > /etc/.sail/tmp/pass
 
-sudo chown -R larasail:larasail /etc/.larasail/tmp
+sudo chown -R sail:sail /etc/.sail/tmp
 
 
 # Include our colors and format scripts
-. /etc/.larasail/includes/colors
-. /etc/.larasail/includes/format
+. /etc/.sail/includes/colors
+. /etc/.sail/includes/format
 
 
-# Add larasail alias to larasail bashrc and the bin path dir for composer
-echo "alias larasail='sh /etc/.larasail/larasail'" >> /home/larasail/.bashrc
-echo "export PATH=~/.config/composer/vendor/bin:~/.composer/vendor/bin:\$PATH" >> /home/larasail/.bashrc
+# Add sail alias to sail bashrc and the bin path dir for composer
+echo "alias sail='sh /etc/.sail/sail'" >> /home/sail/.bashrc
+echo "export PATH=~/.config/composer/vendor/bin:~/.composer/vendor/bin:\$PATH" >> /home/sail/.bashrc
 
 
 # Show message after successfully installing
@@ -57,6 +57,6 @@ echo "| Prepare the Sails, we're ready for the Open Sea!";
 barNoColor
 
 
-# Remove larasail folder pulled from git repo and switch user to larasail
+# Remove sail folder pulled from git repo and switch user to sail
 rm -rf larasail-master
-su - larasail
+su - sail

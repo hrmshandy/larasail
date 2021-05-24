@@ -11,9 +11,9 @@ Creating a pull request is described in
 
 ### File Location/Types
 
-### [`.larasail`](./.larasail)
+### [`.sail`](./.sail)
 
-All the source for the LaraSail tool is located within the [`.larasail`](./.larasail) directory.
+All the source for the LaraSail tool is located within the [`.sail`](./.sail) directory.
 
 ## Issue Creation
 

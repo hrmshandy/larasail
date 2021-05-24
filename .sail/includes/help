@@ -8,11 +8,11 @@ echo "  LaraSail is a CLI for building Laravel ready servers on Digital Ocean"
 echo ""
 
 echo "${Yellow}Usage:${Color_Off}"
-echo "  larasail $arguments"
+echo "  sail $arguments"
 echo ""
 
 echo "${Yellow}Arguments:${Color_Off}"
-echo "  ${Yellow}enter${Color_Off}              Enter shell as larasail user"
+echo "  ${Yellow}enter${Color_Off}              Enter shell as sail user"
 echo "  ${Yellow}setup${Color_Off}              Setup a new server with Nginx, PHP 7.4, and MySQL 8"
 echo "  ${Yellow}setup php80${Color_Off}        Setup a new server with Nginx, PHP 8.0, and MySQL 5.7"
 echo "  ${Yellow}setup php73${Color_Off}        Setup a new server with Nginx, PHP 7.3, and MySQL 5.7"
@@ -20,10 +20,10 @@ echo "  ${Yellow}setup php72${Color_Off}        Setup a new server with Nginx, P
 echo "  ${Yellow}setup php71${Color_Off}        Setup a new server with Nginx, PHP 7.1, and MySQL 5.7"
 echo "  ${Yellow}new${Color_Off}                Create a new Laravel project using Larasail"
 echo "  ${Yellow}host${Color_Off}               Create a new Nginx host"
-echo "  ${Yellow}host \$1 \$2${Color_Off}         \$1=domain, \$2=folder_location (ex. larasail host url.com /var/www/folder)"
-echo "  ${Yellow}pass${Color_Off}               Display the larasail user password"
+echo "  ${Yellow}host \$1 \$2${Color_Off}         \$1=domain, \$2=folder_location (ex. sail host url.com /var/www/folder)"
+echo "  ${Yellow}pass${Color_Off}               Display the sail user password"
 echo "  ${Yellow}mysqlpass${Color_Off}.         Display the MySQL password"
 echo "  ${Yellow}database${Color_Off}           Database management"
 
 
-#. /etc/.larasail/includes/colors
+#. /etc/.sail/includes/colors

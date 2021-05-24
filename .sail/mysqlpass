@@ -9,12 +9,12 @@
 #
 #/
 
-. /etc/.larasail/includes/colors
-. /etc/.larasail/includes/format
+. /etc/.sail/includes/colors
+. /etc/.sail/includes/format
 
 setsail
 
-MYSQLPASS=$(cat /home/larasail/.my.cnf  | grep password | awk -F'password=' '{print $2}')
+MYSQLPASS=$(cat /home/sail/.my.cnf  | grep password | awk -F'password=' '{print $2}')
 
 bar
 cyan "| MySQL Password:"

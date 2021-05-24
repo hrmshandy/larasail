@@ -9,12 +9,12 @@
 #
 #/
 
-. /etc/.larasail/includes/colors
-. /etc/.larasail/includes/format
+. /etc/.sail/includes/colors
+. /etc/.sail/includes/format
 
 setsail
 
-PASS=$(cat /etc/.larasail/tmp/pass)
+PASS=$(cat /etc/.sail/tmp/pass)
 
 bar
 cyan "| LaraSail User Password:"

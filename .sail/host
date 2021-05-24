@@ -8,7 +8,7 @@
 # This command will create a new nginx host file for a specific domain
 # pass the website domain and the folder location, here's an example:
 #
-# $ larasail host mywebsite.com /var/www/mywebsite
+# $ sail host mywebsite.com /var/www/mywebsite
 #
 # The above command will create a new nginx host that will listen
 # for a connection coming from mywebsite.com and map it to the
@@ -16,8 +16,8 @@
 #
 #/
 
-. /etc/.larasail/includes/colors
-. /etc/.larasail/includes/format
+. /etc/.sail/includes/colors
+. /etc/.sail/includes/format
 
 setsail
 
@@ -70,13 +70,13 @@ fi
 
 if [ -d ${rootPath}/storage ]; then
 	echo "Updating the permissions of the storage folder"
-	sudo chown -R larasail:www-data ${rootPath}/storage
+	sudo chown -R sail:www-data ${rootPath}/storage
 	sudo chmod -R 775 ${rootPath}/storage
 fi
 
 if [ -d ${rootPath}/bootstrap/cache ]; then
 	echo "Updating the permissions of the bootstrap/cache folder"
-	sudo chown -R larasail:www-data ${rootPath}/bootstrap/cache
+	sudo chown -R sail:www-data ${rootPath}/bootstrap/cache
 	sudo chmod -R 775 ${rootPath}/bootstrap/cache
 fi
 
