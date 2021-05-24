@@ -58,8 +58,6 @@ CLIENT_IP=$(echo $SSH_CLIENT | awk '{ print $1}')
 # Enable 3306 ports in order to connect to database via Sequel Pro
 sudo ufw allow from ${CLIENT_IP}/32 to any port 3306
 
-
-
 bar
 cyan "| Installing PHP $PHP and all necessary files";
 bar
@@ -102,8 +100,35 @@ update-alternatives --set php /usr/bin/php8.0
 update-alternatives --set php-config /usr/bin/php-config8.0
 update-alternatives --set phpize /usr/bin/phpize8.0
 
+# Set Some PHP CLI Settings
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = Asia/Jakarta/" /etc/php/8.0/cli/php.ini
+
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = Asia/Jakarta/" /etc/php/7.4/cli/php.ini
+
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/8.0/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/8.0/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone =  Asia/Jakarta/" /etc/php/8.0/fpm/php.ini
+
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone =  Asia/Jakarta/" /etc/php/7.4/fpm/php.ini
+
 # sudo rm /usr/bin/php
 # sudo ln -s /usr/bin/php$PHP /usr/bin/php
+
+bar
+cyan "| Install Redis";
+bar
+
+apt-add-repository ppa:chris-lea/redis-server -y
+sudo apt-get -y update
+apt-get install -y redis-server
+systemctl enable redis-server
+service redis-server start
 
 bar
 cyan "| Updating Permissions "
